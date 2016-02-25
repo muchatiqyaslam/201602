@@ -22,6 +22,19 @@ def login(nama, sandi):
         hasil['pesan']='masukan salah'
         hasil['succceded'] = False
     return jsonify(hasil)
+
+@application.route('/get_users')
+def get_users():
+    cur.execute ("SELECT id, nama, sandi FROM pengguna");
+    rows = cur.fetchall()
+    users = []
+    for i, row in enumerate(rows):
+        users.append({'id': row[0]})
+        users.append({'nama': row[1]})
+        users.append({'sandi': row[2]})
+
+    return jsonify(data=users)
+
 @application.route('/')
 def index():
     return render_template("index.html")
